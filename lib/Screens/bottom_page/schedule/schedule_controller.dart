@@ -42,6 +42,7 @@ class ScheduleController extends GetxController {
       isLoading.value = false;
 
       final msg = res.data['message'];
+      print(msg);
       showToast(msg, isError: true);
     }
     }catch(e){
@@ -57,17 +58,19 @@ class ScheduleController extends GetxController {
       showLoadingDialog();
 
       final res = await AppHttpService.put(
-          '${BaseApi.baseAddressSlash}appointments/cancel-appointment/$ids',
+          '${BaseApi.baseAddressSlash}appointments/cancel-appointment/${ids}',
           );
       if (res.statusCode! < 203) {
         // res.data;
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: false);
         hideLoadingDialog();
         getDataAppointments();
       } else {
         hideLoadingDialog();
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: true);
       }
     }catch(e){

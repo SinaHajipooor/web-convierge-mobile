@@ -8,43 +8,24 @@ import '../profile/doctorprofile.dart';
 import 'dc_home_controller.dart';
 import 'package:medical_u/widgets/progress.dart';
 
-class DcHomePage extends StatefulWidget  {
+class DcHomePage extends StatefulWidget {
   const DcHomePage({Key? key}) : super(key: key);
 
   @override
   State<DcHomePage> createState() => _DcHomePageState();
 }
 
-class _DcHomePageState extends State<DcHomePage> with WidgetsBindingObserver {
+class _DcHomePageState extends State<DcHomePage> {
   final _controller = Get.put(DcHomeController());
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      _controller.getNotif();
-    }
-  }
-
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _controller.getNotif();
-     _controller.getDataDay();
-     _controller.getDataWeek();
     });
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    WidgetsBinding.instance.removeObserver(this);
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,11 +75,9 @@ const SizedBox(width: 8,),
                           Get.to(const Profiledoctor(),
                               transition: Transition.rightToLeft);
                         },
-                        child: Obx(
-                          ()=> CAvatar(
-                            url: gUserRx.value.image??"",
-                            radius: 20,
-                          ),
+                        child: CAvatar(
+                          url: gUserRx.value.image??"",
+                          radius: 20,
                         ),
                       ),
                     ],
@@ -135,7 +114,8 @@ const SizedBox(width: 8,),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: List.generate(
-                                    _controller.appointmentDay.value?.data?.allAppointments?.length ?? 0,
+                                    _controller.appointmentDay.value!.data!
+                                        .allAppointments!.length,
                                     (index)  {
                                       return ItemAppointment(appointment: _controller.appointmentDay.value!.data!.allAppointments![index],width: 320,
                                       onCancel: ()=>_controller.onCancels( _controller
@@ -467,7 +447,8 @@ const SizedBox(width: 8,),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: List.generate(
-                                    _controller.appointmentWeek.value?.data?.allAppointments?.length ?? 0,
+                                    _controller.appointmentWeek.value!.data!
+                                        .allAppointments!.length,
                                     (index) {
                                       return ItemAppointment(appointment:_controller.appointmentWeek.value!.data!.allAppointments![index],isDay: true, width: 350,
 

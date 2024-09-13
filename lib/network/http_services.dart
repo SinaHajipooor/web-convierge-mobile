@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' as getLib;
 import 'package:get_storage/get_storage.dart';
 import 'package:http_parser/http_parser.dart';
@@ -163,8 +163,6 @@ class AppHttpService {
         HttpHeaders.acceptHeader: 'application/json',
     };
 
-    debugPrint('url_post_is: $path');
-
 
     final response = await Dio().post(
       path,
@@ -178,8 +176,6 @@ class AppHttpService {
 
       //  refreshCode();
     }
-
-    debugPrint(response.data.toString());
 
     return response;
   }
@@ -228,6 +224,7 @@ class AppHttpService {
       HttpHeaders.acceptHeader: 'application/json',
     };
 
+    print(path);
 
     final response = await Dio().post(
       path,
@@ -247,9 +244,7 @@ class AppHttpService {
     final options = Options();
 
     String token = AppGlobals.token;
-    if (kDebugMode) {
-      print('token_is: $token');
-    }
+    print('token_is: $token');
 
     options.headers = {
       if (AppGlobals.token != '')

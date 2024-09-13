@@ -33,7 +33,7 @@ class _ProfilepatientState extends State<Profilepatient>  {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    double _width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -44,7 +44,7 @@ class _ProfilepatientState extends State<Profilepatient>  {
                   padding: const EdgeInsets.only(bottom: 40),
                   child: Container(
                     height: 260,
-                    width: width,
+                    width: _width,
                     color: const Color(0xff1C208F),
                   ),
                 ),
@@ -81,12 +81,10 @@ class _ProfilepatientState extends State<Profilepatient>  {
                 // ),
                 Positioned(
                   top: 200,
-                  left: width / 2 - 50,
-                  child: Obx(
-                    ()=> CAvatar(
-                      url: gUserRx.value.image??"",
-                      radius: 50,
-                    ),
+                  left: _width / 2 - 50,
+                  child: CAvatar(
+                    url: gUserRx.value.image??"",
+                    radius: 50,
                   ),
                 )
               ],
@@ -255,6 +253,7 @@ class _ProfilepatientState extends State<Profilepatient>  {
                           isDense: true,
                           prefixIcon:  CountryCodePicker(
                             onChanged: (code) {
+                              print(code);
                               _controller.code=code.toString();
                             },
                             initialSelection: "+${_controller.code}",
@@ -347,7 +346,7 @@ class _ProfilepatientState extends State<Profilepatient>  {
                           child:DropdownButton<String>(
                             isExpanded: true,
                             value: _controller.gender.value.isValid ?_controller.gender.value : null,
-                            underline: const SizedBox.shrink(),
+                            underline: SizedBox.shrink(),
                             items: _controller.genders
                                 .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
@@ -379,7 +378,7 @@ class _ProfilepatientState extends State<Profilepatient>  {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.only(left: 10),
                       child: SizedBox(
                         height: 200,
                         child: TextFormField(
@@ -419,14 +418,14 @@ class _ProfilepatientState extends State<Profilepatient>  {
                       height: 20,
                     ),
                     LoadingButton(
-                      width: width,
+                      width: _width,
                       height: 56,
                       controller: _controller.btnUpdateProfileController,
                       onTap: () {
                         _controller.uploadProfile();
-                        // if(_controller.biography.text !="" && _controller.biography.text!= gUserRx.value.bio){
-                        //   _controller.changeBio();
-                        // }
+                        if(_controller.biography.text !="" && _controller.biography.text!= gUserRx.value.bio){
+                          _controller.changeBio();
+                        }
                       },
                       title: "Update Profile".tr,
                     ),
@@ -435,7 +434,7 @@ class _ProfilepatientState extends State<Profilepatient>  {
                       height: 20,
                     ),
                     IntroButton(
-                      width: width,
+                      width: _width,
                       height: 56,
                       onTap: () {
                         changePass();
@@ -447,7 +446,7 @@ class _ProfilepatientState extends State<Profilepatient>  {
                       height: 20,
                     ),
                     IntroButton(
-                      width: width,
+                      width: _width,
                       height: 56,
                       onTap: () {
                         _controller.getLangList();
@@ -893,6 +892,7 @@ class _ProfilepatientState extends State<Profilepatient>  {
 
   void setImageInFile(PhotoType photoType, File file) {
     profileImage.value = file;
+    print(file.path);
   }
 
   Future<String> getImageDirectoryPath(String path) async {
@@ -904,7 +904,7 @@ class _ProfilepatientState extends State<Profilepatient>  {
       {String? imgName, Function(File)? onNewFile}) async {
     imgName = imgName ?? pathTempProfileImageName;
 
-    getImageDirectoryPath(imgName).then((tempPath) {
+    getImageDirectoryPath(imgName!).then((tempPath) {
       ///Delete previous file if exists
       final checkFile = File(tempPath);
       if (checkFile.existsSync()) checkFile.deleteSync();

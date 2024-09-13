@@ -4,8 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medical_u/Screens/sign_in/sign_in_controller.dart';
 import 'package:medical_u/widgets/loading_button.dart';
+import 'package:otp_text_field/otp_field.dart';
+import 'package:otp_text_field/otp_field_style.dart';
+import 'package:otp_text_field/style.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../../widgets/intro_button.dart';
+import '../Congratulations/congratulations.dart';
 
 class Verify extends StatefulWidget {
   const Verify({Key? key}) : super(key: key);
@@ -75,20 +80,20 @@ class _VerifyState extends State<Verify> {
                           ],
                         ),
                          Padding(
-                          padding: const EdgeInsets.only(top: 10),
+                          padding: EdgeInsets.only(top: 10),
                           child: Text(
                             "Verify".tr,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 36,
                             ),
                           ),
                         ),
                          Padding(
-                          padding: const EdgeInsets.only(top: 10),
+                          padding: EdgeInsets.only(top: 10),
                           child: Text(
                             "Check your sms and verify code".tr,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.w400,
                               color: Color(0xff667085),
                               fontSize: 14,
@@ -119,7 +124,7 @@ class _VerifyState extends State<Verify> {
                         //   style: const TextStyle(
                         //       fontSize: 20, fontWeight: FontWeight.bold),
                         // ),
-                        const SizedBox(height: 20,),
+                        SizedBox(height: 20,),
                         Obx(() => InkWell(
                           onTap: () {
                             if (resendActive.value) {
@@ -138,7 +143,7 @@ class _VerifyState extends State<Verify> {
                           height: 56,
                           width: 335,
                           controller: _controller.btnSignInController,
-                          onTap:()=> _controller.signOTP(),
+                          onTap:()=> _controller.signOTP,
                         ),
 
                         // InkWell(

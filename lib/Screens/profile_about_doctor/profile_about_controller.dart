@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medical_u/model/review_model.dart';
+import 'package:medical_u/model/invoice/review_model.dart';
 import 'package:medical_u/network/http_services.dart';
 import 'package:medical_u/utils/common_utils.dart';
 import 'package:medical_u/value/base_api.dart';
@@ -93,6 +93,7 @@ class ProfileAboutController extends GetxController {
           }
         } else {
           final msg = res.data['message'];
+          print(msg);
           showToast(msg, isError: true);
         }
 
@@ -105,6 +106,7 @@ class ProfileAboutController extends GetxController {
       } else {
         isLoading.value = false;
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: true);
       }
     } catch (e) {
@@ -149,6 +151,7 @@ class ProfileAboutController extends GetxController {
           return;
         });
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: true);
       }
     } catch (e) {
@@ -181,6 +184,7 @@ class ProfileAboutController extends GetxController {
       } else {
         isLoading.value = false;
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: true);
       }
     } catch (e) {

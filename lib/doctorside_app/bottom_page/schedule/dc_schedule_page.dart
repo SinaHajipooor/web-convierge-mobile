@@ -1,7 +1,8 @@
+import 'dart:math';
+import 'package:calendar_agenda/calendar_agenda.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medical_u/doctorside_app/bottom_page/schedule/dc_schedule_controller.dart';
-import 'package:medical_u/lib/calendar_agenda.dart';
 import 'package:medical_u/widgets/intro_button.dart';
 import 'package:medical_u/widgets/item_appointment.dart';
 import 'package:medical_u/widgets/progress.dart';

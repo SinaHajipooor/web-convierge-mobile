@@ -121,11 +121,8 @@ class _ItemAppointmentState extends State<ItemAppointment> {
                                   onTap: (){
                                     Get.to(ProfileAbout(id: widget.appointment.allClients![inde].id?.toInt()??0,isClient: true,));
                                   },
-                                  url: (
-
-                                      widget.appointment.allClients?[inde]
-                                          .image?['url'] ??
-
+                                  url: (widget.appointment.allClients?[inde]
+                                          .image?.url ??
                                       ""),
                                   radius: 29,
                                 )
@@ -153,7 +150,8 @@ class _ItemAppointmentState extends State<ItemAppointment> {
                                           onTap: (){
                                             Get.to(ProfileAbout(id: widget.appointment.allStaff?[inde].id?.toInt()??0,isClient: false,));
                                           },
-                                          url: (widget.appointment.allStaff?[inde].image?['url'] ??
+                                          url: (widget.appointment.allStaff?[inde].image
+                                              ?.url ??
                                               ""),
                                           radius: 29,
                                         )

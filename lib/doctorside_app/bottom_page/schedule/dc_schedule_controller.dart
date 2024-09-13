@@ -38,6 +38,7 @@ class DcScheduleController extends GetxController {
         isLoading.value = false;
       } else {
         final msg = res.data['message'];
+        print(msg);
         isLoading.value = false;
 
         showToast(msg, isError: true);
@@ -62,12 +63,14 @@ errorApi(e);
       if (res.statusCode! < 203) {
         // res.data;
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: false);
         hideLoadingDialog();
         getDataAppointments();
       } else {
         hideLoadingDialog();
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: true);
       }
     }catch(e){

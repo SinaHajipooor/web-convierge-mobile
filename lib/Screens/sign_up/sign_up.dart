@@ -83,7 +83,7 @@ class _SingUpState extends State<SingUp> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 10,),
+                        SizedBox(height: 10,),
 
                         Form(
                           key: _controller.formKey,

@@ -44,6 +44,7 @@ class PatientController extends GetxController {
         } else {
           final msg = res.data['message'];
           isLoading.value = false;
+          print(msg);
           showToast(msg, isError: true);
         }
       }catch(e){

@@ -7,7 +7,7 @@ import 'package:medical_u/value/base_api.dart';
 class TicketsController extends GetxController{
 
   RxBool isLoading=false.obs;
-  Rx <TicketsModel> tickets =TicketsModel().obs;
+  late TicketsModel tickets;
 
   @override
   void onInit() {
@@ -18,15 +18,16 @@ class TicketsController extends GetxController{
   getData() async {
     try {
       isLoading.value = true;
-      // Map<String, dynamic> map = <String, dynamic>{};
+      Map<String, dynamic> map = <String, dynamic>{};
       final res = await AppHttpService.get(
           '${BaseApi.baseAddressSlash}tickets/all-tickets', parameters: {},
           );
       if (res.statusCode! < 204) {
-       tickets.value = TicketsModel.fromJson(res.data);
+       tickets = TicketsModel.fromJson(res.data);
         isLoading.value = false;
       } else {
         final msg = res.data['message'];
+        print(msg);
         isLoading.value = false;
 
         showToast(msg, isError: true);
@@ -38,7 +39,6 @@ class TicketsController extends GetxController{
 
 
   }
-
   onTap(url) async {
     try {
       showLoadingDialog();
@@ -46,11 +46,12 @@ class TicketsController extends GetxController{
           '$url', parameters: {},
           );
       if (res.statusCode! < 204) {
-       tickets.value = TicketsModel.fromJson(res.data);
+       tickets = TicketsModel.fromJson(res.data);
        hideLoadingDialog();
        getData();
       } else {
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: true);
         hideLoadingDialog();
 

@@ -75,7 +75,7 @@ class ProfileDcController extends GetxController {
           Column(
             children: [
               Text("Choose Your Language".tr,
-                  style: const TextStyle(color: Colors.white)),
+                  style: TextStyle(color: Colors.white)),
               const SizedBox(height: 10),
               ConstrainedBox(
                 constraints: BoxConstraints(maxHeight: Get.width),
@@ -86,7 +86,7 @@ class ProfileDcController extends GetxController {
                         child: Padding(
                           padding: const EdgeInsets.all(8),
                           child: Text(lang[index],
-                              style: const TextStyle(color: Colors.white)),
+                              style: TextStyle(color: Colors.white)),
                         ),
                         onTap: () async {
                           var t = lang[index]
@@ -94,6 +94,7 @@ class ProfileDcController extends GetxController {
                               .split("(")[1]
                               .replaceAll(')', "");
                           getData(t);
+                          print(t);
                         },
                       );
                     },
@@ -106,6 +107,7 @@ class ProfileDcController extends GetxController {
         );
       } else {
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: true);
       }
     } catch (e) {
@@ -188,6 +190,7 @@ class ProfileDcController extends GetxController {
         }
       } else {
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: true);
       }
     } catch (e) {
@@ -209,12 +212,12 @@ class ProfileDcController extends GetxController {
             children: [
               Row(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     width: 15,
                   ),
                   GestureDetector(
                     onTap: () => Get.back(),
-                    child: const Icon(
+                    child: Icon(
                       Icons.close,
                       size: 15,
                       color: Colors.white,
@@ -230,7 +233,7 @@ class ProfileDcController extends GetxController {
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   decoration: BoxDecoration(
                       color: bg ?? Colors.blueAccent.shade400,
-                      borderRadius: const BorderRadius.all(Radius.circular(7))),
+                      borderRadius: BorderRadius.all(Radius.circular(7))),
                   child: customView)
             ],
           );
@@ -256,11 +259,12 @@ class ProfileDcController extends GetxController {
         Get.clearTranslations();
         Get.appendTranslations(decodedMap);
         Get.updateLocale(Locale(t));
-        await GetStorage().write(PreferenceKey.language, t);
+        GetStorage().write(PreferenceKey.language, t);
         Get.back();
       } else {
         hideLoadingDialog();
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: true);
       }
     } catch (e) {
@@ -276,23 +280,18 @@ class ProfileDcController extends GetxController {
     super.onInit();
     locals.clear();
     for(int i = 0 ; i<edit.value.data!.localeList!.length;i++) {
-      if(!locals.contains(edit.value.data?.localeList?[i].translatedName??"")) {
-        locals.add(edit.value.data?.localeList?[i].translatedName??"");
-      }
+      locals.add(edit.value.data?.localeList?[i].translatedName??"");
     }
+    local.value =edit.value.data!.localeList!.where((element) => element.id!.toInt().toString()==gUserRx.value.id.toString()).first.translatedName??"usa";
 
-    local.value =edit.value.data!.localeList!.firstWhereOrNull((element) => element.id!.toInt().toString()==(gUserRx.value.preferedLocale ?? edit.value.data?.user?.preferredLocale  ?? 1).toString())?.translatedName??"usa";
     firstName.text = ("${gUserRx.value.firstName}");
     lastName.text = ("${gUserRx.value.lastName}");
     email.text = gUserRx.value.email ?? "";
     biography.text=gUserRx.value.bio.toString().replaceFirst("null", "");
-    if(gUserRx.value.mobile.toString()!="")
-    {
-      mobile.text = gUserRx.value.mobile.toString().substring(2,gUserRx.value.mobile.length) ?? "";
-      code=gUserRx.value.mobile.toString().substring(0,2);
-
-    }
+    mobile.text = gUserRx.value.mobile.toString().substring(2,gUserRx.value.mobile.length) ?? "";
+    code=gUserRx.value.mobile.toString().substring(0,2);
     preferedLocale.text = gUserRx.value.address ?? "";
+    print(code);
     if (gUserRx.value.gender != null) {
       gender.value = gUserRx.value.gender!;
     }
@@ -378,9 +377,7 @@ class ProfileDcController extends GetxController {
           showToast(res.data['message'] ?? 'Biography changed successfully.'.tr,
               isError: false);
           btnChangeBiographyController.success();
-          updateProfile(res);
-
-          // gUserRx.value.setBio=biography.text.toString();
+          gUserRx.value.setBio=biography.text.toString();
         } else {
           showToast(res.data['message'] ?? 'Validation error occurred.'.tr,
               isError: true);
@@ -446,18 +443,16 @@ class ProfileDcController extends GetxController {
     }
   }
 
-  void updateProfile(res) async {
+  void updateProfile(res) {
     var userMap = res.data['data'] as Map?;
-    await GetStorage().write(PreferenceKey.userObject, userMap);
+    GetStorage().write(PreferenceKey.userObject, userMap);
     gUserRx.value = UserData.fromJson(userMap);
-    gUserRx.refresh();
   }
-  void updateImage(url) async {
+  void updateImage(url) {
     var userMap = GetStorage().read(PreferenceKey.userObject);
     userMap['image']["url"] = url;
-    await GetStorage().write(PreferenceKey.userObject, userMap);
+    GetStorage().write(PreferenceKey.userObject, userMap);
     gUserRx.value = UserData.fromJson(userMap);
-    gUserRx.refresh();
   }
 
   Future<void> uploadProfile() async {
@@ -469,32 +464,30 @@ class ProfileDcController extends GetxController {
 
     try {
       int loc = edit.value.data!.localeList!.where((element) => element.slug.toString()==local.value.toLowerCase()).first.id?.toInt()??1;
-      final res = await AppHttpService.post(
-        '${BaseApi.baseAddressSlash}users/${gUserRx.value.id.toString()}?_method=PATCH',
+      final res = await AppHttpService.patch(
+        '${BaseApi.baseAddressSlash}users/${gUserRx.value.id.toString()}',
         data: {
           "first_name": firstName.text,
           "last_name": lastName.text,
           "email": email.text,
           "mobile": "${code?.replaceAll("+", "")}${mobile.text}",
           "preferred_locale": loc.toString(),
-          "gender": gender.value,
-          "bio": biography.text,
-          "status":gUserRx.value.status,
+          "gender": gender.value
         },
       );
+      print(mobile.text);
       btnUpdateProfileController.stop();
 
       if (res.statusCode! < 203) {
         showToast(res.data['message'] ?? 'User updated successfully.'.tr,
             isError: false);
-        updateProfile(res);
-
         Get.back();
       } else if(res.data['data']!=null) {
         showToast('User updated successfully.'.tr,
             isError: false);
         updateProfile(res);
         Get.back();
+
       }else{
         showToast(res.data['message'] ?? 'Validation error occurred.'.tr,
             isError: true);

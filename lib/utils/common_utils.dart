@@ -58,6 +58,7 @@ void errorApi(exception) {
   } else {
     if (exception.response!.statusCode == 422) {
       showToast(exception.response?.data['message'],isError: true,isLong: true);
+
     }
   }
   }else{

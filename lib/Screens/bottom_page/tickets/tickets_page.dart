@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medical_u/Screens/bottom_page/tickets/tickets_controller.dart';
+import 'package:medical_u/doctorside_app/bottom_page/history_payment/history_payment_controller.dart';
+import 'package:medical_u/widgets/payment_item.dart';
 import 'package:medical_u/widgets/progress.dart';
 import 'package:medical_u/widgets/ticket_item.dart';
 
@@ -27,9 +29,9 @@ class _TicketsPage extends State<TicketsPage> {
              Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 50, left: 20),
+                  padding: EdgeInsets.only(top: 50, left: 20),
                   child: Text("Tickets".tr,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 24,
                       )
@@ -44,13 +46,13 @@ class _TicketsPage extends State<TicketsPage> {
                   () =>
               !_controller.isLoading.value
                   ? Column(
-                children:( _controller.tickets.value.data!=null && _controller.tickets.value.data?.length != 0)
+                children:( _controller.tickets.data!=null && _controller.tickets.data?.length != 0)
                     ? List.generate(
 
-                    _controller.tickets.value.data?.length ?? 0,
+                    _controller.tickets.data?.length ?? 0,
                         (index) =>
                         TicketItem(
-                          data: _controller.tickets.value.data![index],isHome: false,)
+                          data: _controller.tickets.data![index],isHome: false,)
                 )
                     : [
 

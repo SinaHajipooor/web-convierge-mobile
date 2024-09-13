@@ -30,6 +30,7 @@ class _TicketItemState extends State<TicketItem> {
         });
       },
       child: Wrap(
+
         children: [
           Padding(
             padding:
@@ -37,7 +38,6 @@ class _TicketItemState extends State<TicketItem> {
             child: Container(
                 // height:ex ?305 : 105,
                 width: widget.w,
-
                 decoration: BoxDecoration(
                     boxShadow: const [
                       BoxShadow(
@@ -69,15 +69,14 @@ class _TicketItemState extends State<TicketItem> {
 
                             Container(
                               decoration: BoxDecoration(
-                                  color: widget.data.status?.type=='error'? Colors.red[100] : widget.data.status?.type=="warning"? Colors.yellow[100]: Colors.greenAccent[100],
+                                  color: widget.data.status?.type=='error'? Colors.red[100] :Colors.greenAccent[100],
                                   borderRadius:
                                   const BorderRadius.all(Radius.circular(8))),
                               padding: const EdgeInsets.all(5),
                               child:
                               Text(widget.data.status?.slug.toString().tr?? "",
                                   style:  TextStyle(
-
-                                    color:  widget.data.status?.type=='error'? Colors.red : widget.data.status?.type=="warning" ? Colors.orange :Colors.green,
+                                    color:  widget.data.status?.type=='error'? Colors.red :Colors.green,
                                   )),
                             )
 
@@ -91,12 +90,12 @@ class _TicketItemState extends State<TicketItem> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 6),
+                            padding: const EdgeInsets.only(left: 8),
                             child:
                             Text("${"Sender".tr}: ${widget.data.sender?.fullName}",
                                 style: const TextStyle(
                                     color: Colors.black,
-                                    fontSize: 14)),
+                                    fontSize: 14.5)),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(right: 8),
@@ -104,7 +103,7 @@ class _TicketItemState extends State<TicketItem> {
                                 style: const TextStyle(
 
                                     color: Colors.black,
-                                    fontSize: 14)),
+                                    fontSize: 14.5)),
                           ),
 
                         ],
@@ -133,21 +132,12 @@ class _TicketItemState extends State<TicketItem> {
                                 children: List.generate(widget.data.buttons?.length??0, (index) =>                                   Expanded(
                                   child: GestureDetector(
                                     onTap:() async {
+                                    ///
                                           try {
                                             showLoadingDialog();
-                                            var res;
-                                            if(widget.data.buttons?[index].route?.method=="put"){
-                                               res = await AppHttpService.put(
-                                                '${widget.data.buttons?[index].route?.uri}',
-                                              );
-                                            }else {
-                                               res = await AppHttpService
-                                                  .get(
-                                                '${widget.data.buttons?[index]
-                                                    .route?.uri}',
-                                                parameters: {},
-                                              );
-                                            }
+                                            final res = await AppHttpService.get(
+                                                '${widget.data.buttons?[index].route}', parameters: {},
+                                                );
                                             if (res.statusCode! < 204) {
                                              hideLoadingDialog();
                                              if(widget.isHome){
@@ -157,6 +147,7 @@ class _TicketItemState extends State<TicketItem> {
                                              }
                                             } else {
                                               final msg = res.data['message'];
+                                              print(msg);
                                               showToast(msg, isError: true);
                                               hideLoadingDialog();
 
@@ -170,9 +161,8 @@ class _TicketItemState extends State<TicketItem> {
                                       margin:  EdgeInsets.only(top: 10 ,left: index >= 1 ? 8 : 0),
                                       height: 45,
                                       decoration: BoxDecoration(
-                                          color: widget.data.buttons?[index].color =="success"  ? const Color(0xff1C208F) :
-                                          widget.data.buttons?[index].color =="danger" ?
-                                          Colors.red : Colors.green
+                                          color: widget.data.buttons?[index].color =="info"  ? Color(0xff1C208F) :
+                                          widget.data.buttons?[index].color =="error" ? Colors.red : Colors.green
                                           ,
                                           borderRadius:
                                           BorderRadius.circular(10)),

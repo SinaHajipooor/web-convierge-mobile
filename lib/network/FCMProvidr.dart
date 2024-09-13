@@ -7,7 +7,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:medical_u/Screens/Notifications/notifications_page.dart';
 
-
 import 'firebase_api.dart';
 
 class FCMProvider with ChangeNotifier {
@@ -57,8 +56,8 @@ class FCMProvider with ChangeNotifier {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       Get.to(const NotificationsPage());
     },);
-    Stream<RemoteMessage> stream = FirebaseMessaging.onMessageOpenedApp;
-    stream.listen((RemoteMessage event) async {
+    Stream<RemoteMessage> _stream = FirebaseMessaging.onMessageOpenedApp;
+    _stream.listen((RemoteMessage event) async {
       Get.to(const NotificationsPage());
     });
 

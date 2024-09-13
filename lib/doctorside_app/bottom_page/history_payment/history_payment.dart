@@ -25,9 +25,9 @@ class _HistoryPayment extends State<HistoryPayment> {
              Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 50, left: 20),
+                  padding: EdgeInsets.only(top: 50, left: 20),
                   child: Text("Payment History".tr,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 24,
                       )

@@ -12,43 +12,25 @@ import 'package:medical_u/widgets/progress.dart';
 import 'package:medical_u/widgets/ticket_item.dart';
 import '../../profile_about_doctor/profile_about_doctor.dart';
 
-class HomePage extends StatefulWidget  {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
+class _HomePageState extends State<HomePage> {
   final _controller = Get.put(HomeController());
   final _controllerDc = Get.put(DcHomeController());
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _controller.getNotif();
-      _controller.getTicket();
-      _controllerDc.getDataDay();
-      _controllerDc.getDataWeek();
     });
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    WidgetsBinding.instance.removeObserver(this);
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      _controller.getNotif();
-    }
-  }
 
 
   // int _selectedIndex = 0;
@@ -109,17 +91,15 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     await Get.to(const NotificationsPage());
                     _controller.notif.value=0;
                   },child: Obx(()=> Badge(isLabelVisible: _controller.notif.value!=0,label: Text("${_controller.notif.value}"),child: Icon(Icons.notifications_none,size: 35,color: Colors.blue.shade200)))),
-                  const SizedBox(width: 8,),
+                  SizedBox(width: 8,),
                   InkWell(
                     onTap: () {
                       Get.to(const Profilepatient(),
                           transition: Transition.rightToLeft);
                     },
-                    child: Obx(
-                      ()=> CAvatar(
-                        url: gUserRx.value.image ?? "",
-                        radius: 20,
-                      ),
+                    child: CAvatar(
+                      url: gUserRx.value.image ?? "",
+                      radius: 20,
                     ),
                   ),
                 ],
@@ -229,7 +209,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         //     ),
         //   ),
         // ),
-        const SizedBox(height:20,),
+        SizedBox(height:20,),
 
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -458,7 +438,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: List.generate(
-                              _controllerDc.appointmentWeek.value?.data?.allAppointments?.length ??0, (index) {
+                              _controllerDc.appointmentWeek.value!.data!
+                                  .allAppointments!.length, (index) {
                             return ItemAppointment(
                               appointment: _controllerDc.appointmentWeek.value!.data!.allAppointments![index],
                               isDay: true,
@@ -512,7 +493,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           0
           ? SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        physics: const AlwaysScrollableScrollPhysics(),
+        physics: AlwaysScrollableScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Row(
@@ -522,7 +503,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     .tickets.value.data?.length??0, (index) {
               return GestureDetector(
 
-                child: TicketItem(data: _controller.tickets.value.data![index],w: 380,
+                child: TicketItem(data: _controller.tickets.value.data![index],w: 370,
                   isHome: true,
 
                 ),

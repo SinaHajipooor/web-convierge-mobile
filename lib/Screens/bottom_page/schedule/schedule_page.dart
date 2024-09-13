@@ -1,9 +1,11 @@
+import 'dart:math';
+import 'package:calendar_agenda/calendar_agenda.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medical_u/widgets/intro_button.dart';
 import 'package:medical_u/widgets/item_appointment.dart';
 import 'package:medical_u/widgets/progress.dart';
-import '../../../lib/calendar_agenda.dart';
+
 import 'schedule_controller.dart';
 
 
@@ -77,8 +79,8 @@ class _SchedulePageState extends State<SchedulePage> {
 
               },child: IntroButton(title: 'Select Other Day'.tr, height: 50, width: 300,)),
 
-              Obx( ()=> _controller.isLoading.value ? const CProgress() :
-              _controller.appointments.data?.allAppointments?.length==0 ?  SizedBox(height:200,child: Center(child: Text("Appointments is empty".tr,style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),))) :
+              Obx( ()=> _controller.isLoading.value? const CProgress() :
+              _controller.appointments.data?.allAppointments== null ?  SizedBox(height:200,child: Center(child: Text("Appointments is empty".tr,style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),))) :
               Column(
                 children: List.generate(
                     _controller.appointments.data!.allAppointments!.length,
@@ -402,7 +404,6 @@ class _SchedulePageState extends State<SchedulePage> {
                                     }),
               ),
               ),
-
             ],
           ),
         ),

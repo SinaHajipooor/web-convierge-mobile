@@ -38,7 +38,10 @@ dependencies:
   get: ^4.6.5
   otp_text_field: ^1.1.3
   flutter_svg: ^2.0.2
-  scrollable_positioned_list: ^0.3.2
+  smooth_page_indicator: ^1.0.0+2
+  table_calendar: ^3.0.3
+  calendar_appbar: ^0.0.6
+  calendar_agenda: ^0.0.2+3
   intl:
   dio:
   get_storage: ^2.1.1
@@ -59,7 +62,6 @@ dependencies:
   firebase_messaging: ^14.7.1
   flutter_local_notifications: ^16.1.0
   badges: ^3.1.2
-  connectivity_plus:
 
 
 

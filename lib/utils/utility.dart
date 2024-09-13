@@ -10,6 +10,39 @@ import 'package:medical_u/value/constants.dart';
 import 'package:medical_u/value/globals.dart';
 
 
+// extension StringExtension on String {
+//   String capitalize() {
+//     return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
+//   }
+// }
+
+
+
+// Color getAverageColor() {
+//   Image bitmap =
+//       decodeImage(new File('assets/images/keyboard.jpg').readAsBytesSync());
+//
+//   int redBucket = 0;
+//   int greenBucket = 0;
+//   int blueBucket = 0;
+//   int pixelCount = 0;
+//
+//   for (int y = 0; y < bitmap.height; y++) {
+//     for (int x = 0; x < bitmap.width; x++) {
+//       int c = bitmap.getPixel(x, y);
+//
+//       pixelCount++;
+//       redBucket += img.getRed(c);
+//       greenBucket += img.getGreen(c);
+//       blueBucket += img.getBlue(c);
+//     }
+//   }
+//
+//   Color averageColor = Color.fromRGBO(redBucket ~/ pixelCount,
+//       greenBucket ~/ pixelCount, blueBucket ~/ pixelCount, 1);
+//   return averageColor;
+// }
+
 const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 Random _rnd = Random();
 
@@ -85,3 +118,8 @@ void setMyProfile() {
   }
 }
 
+class PopupItem {
+  String value;
+  String name;
+  PopupItem(this.value, this.name);
+}

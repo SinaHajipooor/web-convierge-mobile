@@ -18,16 +18,17 @@ class CAvatar extends StatelessWidget {
     return InkWell(
       onTap:onTap,
       child: CircleAvatar(
-        backgroundColor:_url != ""  ? Colors.lightBlueAccent[50] : Colors.lightBlueAccent[200],
+        backgroundColor: Colors.lightBlueAccent[200],
+
         maxRadius: radius,
+
         child:
         Padding(
-          padding:  EdgeInsets.all(0.5),
+          padding: const EdgeInsets.all(1.0),
           child: ClipOval(
+
             child: CachedNetworkImage(
-              height: radius*2,
-              width: radius*2,
-              fit: BoxFit.cover,
+
               imageUrl: _url,
               placeholder: (context, url) => const CircularProgressIndicator(color: Colors.white),
               errorWidget: (context, url, error) => ClipOval(child: Image.asset('asset/images/user-dummy-img.jpg')),

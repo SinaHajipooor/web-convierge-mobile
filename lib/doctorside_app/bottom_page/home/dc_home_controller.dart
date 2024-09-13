@@ -24,8 +24,8 @@ class DcHomeController extends GetxController {
 
   RxBool todayData=false.obs;
   RxBool thisWeekData=false.obs;
-  Rx<AppointmentsModel?> appointmentDay=AppointmentsModel().obs;
-  Rx<AppointmentsModel?> appointmentWeek=AppointmentsModel().obs;
+   Rx<AppointmentsModel?> appointmentDay=AppointmentsModel().obs;
+   Rx<AppointmentsModel?> appointmentWeek=AppointmentsModel().obs;
   RxInt notif=0.obs;
 
   var now = DateTime.now();
@@ -41,6 +41,7 @@ class DcHomeController extends GetxController {
         "period": 'current',
         'date_selected': formattedDate.toString()
       });
+
       final res = await AppHttpService.post(
 
           '${BaseApi.baseAddressSlash}appointments/mobile-schedule',
@@ -52,6 +53,7 @@ class DcHomeController extends GetxController {
         todayData.value = true;
       } else {
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: true);
       }
     }catch(e){
@@ -63,8 +65,6 @@ errorApi(e);
 
 
     try {
-
-
       String formattedDate = formatter.format(now);
       Map<String, dynamic> map = <String, dynamic>{};
       map.addAll({
@@ -109,8 +109,8 @@ errorApi(e);
       errorApi(e);
     }
   }
-
   getDataEdit() async {
+
     try {
       final res = await AppHttpService.get(
         '${BaseApi.baseAddressSlash}users/${gUserRx.value.id?.toInt()??1}/edit', parameters: {},
@@ -119,6 +119,7 @@ errorApi(e);
         edit.value = EditModel.fromJson(res.data);
       } else {
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: true);
       }
     }catch(e){
@@ -129,22 +130,17 @@ errorApi(e);
   void onCancels(ids) async{
     try{
       showLoadingDialog();
-      if(ids.length>2) {
-        final res3 = await AppHttpService.put(
-          '${BaseApi.baseAddressSlash}appointments/cancel-appointment/${ids[2]}',
-        );
-      }
-      if(ids.length>1) {
+      if(ids.length>1)
         final res2 = await AppHttpService.put(
           '${BaseApi.baseAddressSlash}appointments/cancel-appointment/${ids[1]}',
         );
-      }
       final res = await AppHttpService.put(
         '${BaseApi.baseAddressSlash}appointments/cancel-appointment/${ids[0]}',
       );
       if (res.statusCode! < 203) {
         // res.data;
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: false);
         getDataDay();
         getDataWeek();
@@ -154,6 +150,7 @@ errorApi(e);
       } else {
         hideLoadingDialog();
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: true);
       }
     }catch(e){
@@ -174,6 +171,7 @@ errorApi(e);
       if (res.statusCode! < 203) {
         // res.data;
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: false);
         getDataDay();
         getDataWeek();
@@ -183,6 +181,7 @@ errorApi(e);
       } else {
         hideLoadingDialog();
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: true);
       }
     }catch(e){

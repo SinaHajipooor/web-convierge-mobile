@@ -1,8 +1,8 @@
 
 
 import 'package:get/get.dart';
-import 'package:medical_u/model/courses_model.dart';
-import 'package:medical_u/model/invoices_model.dart';
+import 'package:medical_u/model/courses/courses_model.dart';
+import 'package:medical_u/model/invoice/Invoice_model.dart';
 import 'package:medical_u/network/http_services.dart';
 import 'package:medical_u/utils/common_utils.dart';
 import 'package:medical_u/value/base_api.dart';
@@ -17,19 +17,19 @@ class HistoryPaymentController extends GetxController{
   }
   RxBool isLoading =false.obs;
 
-  Rx<InvoicesModel> coursesModel=InvoicesModel().obs;
+  Rx<CoursesModel> coursesModel=CoursesModel().obs;
 
   void getData() async {
     isLoading.value = true;
 
     try {
       final res = await AppHttpService.get(
-        '${BaseApi.baseAddressSlash}invoices/user-invoices/361',
+        '${BaseApi.baseAddressSlash}courses/user-courses/6',
         parameters: {},
       );
 
       if (res.statusCode! < 201) {
-        coursesModel.value = InvoicesModel.fromJson(res.data);
+        coursesModel.value = CoursesModel.fromJson(res.data);
         isLoading.value = false;
       } else {
         isLoading.value = false;

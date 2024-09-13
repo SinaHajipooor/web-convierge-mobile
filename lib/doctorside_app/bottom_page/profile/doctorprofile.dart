@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -34,7 +33,7 @@ class _ProfiledoctorState extends State<Profiledoctor> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    double _width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -45,7 +44,7 @@ class _ProfiledoctorState extends State<Profiledoctor> {
                   padding: const EdgeInsets.only(bottom: 40),
                   child: Container(
                     height: 260,
-                    width: width,
+                    width: _width,
                     color: const Color(0xff1C208F),
                   ),
                 ),
@@ -82,12 +81,10 @@ class _ProfiledoctorState extends State<Profiledoctor> {
                 // ),
                 Positioned(
                   top: 200,
-                  left: width / 2 - 50,
-                  child: Obx(
-                    ()=> CAvatar(
-                      url: gUserRx.value.image ?? "",
-                      radius: 50,
-                    ),
+                  left: _width / 2 - 50,
+                  child: CAvatar(
+                    url: gUserRx.value.image ?? "",
+                    radius: 50,
                   ),
                 )
               ],
@@ -255,9 +252,7 @@ class _ProfiledoctorState extends State<Profiledoctor> {
                           isDense: true,
                           prefixIcon: CountryCodePicker(
                             onChanged: (code) {
-                              if (kDebugMode) {
-                                print(code);
-                              }
+                              print(code);
                               _controller.code = code.toString();
                             },
                             initialSelection: "+${_controller.code}",
@@ -426,14 +421,14 @@ class _ProfiledoctorState extends State<Profiledoctor> {
                     // ),
 
                     LoadingButton(
-                      width: width,
+                      width: _width,
                       height: 56,
                       controller: _controller.btnUpdateProfileController,
-                      onTap: ()  {
-                         _controller.uploadProfile();
-                        // if(_controller.biography.text !="" && _controller.biography.text!= gUserRx.value.bio){
-                        //   _controller.changeBio();
-                        // }
+                      onTap: () {
+                        _controller.uploadProfile();
+                        if(_controller.biography.text !="" && _controller.biography.text!= gUserRx.value.bio){
+                          _controller.changeBio();
+                        }
                       },
                       title: "Update Profile".tr,
                     ),
@@ -441,7 +436,7 @@ class _ProfiledoctorState extends State<Profiledoctor> {
                       height: 20,
                     ),
                     IntroButton(
-                      width: width,
+                      width: _width,
                       height: 56,
                       onTap: () {
                         changePass();
@@ -452,7 +447,7 @@ class _ProfiledoctorState extends State<Profiledoctor> {
                       height: 20,
                     ),
                     IntroButton(
-                      width: width,
+                      width: _width,
                       height: 56,
                       onTap: () {
                         _controller.getLangList();
@@ -897,9 +892,7 @@ class _ProfiledoctorState extends State<Profiledoctor> {
 
   void setImageInFile(PhotoType photoType, File file) {
     profileImage.value = file;
-    if (kDebugMode) {
-      print(file.path);
-    }
+    print(file.path);
   }
 
   Future<String> getImageDirectoryPath(String path) async {
@@ -911,7 +904,7 @@ class _ProfiledoctorState extends State<Profiledoctor> {
       {String? imgName, Function(File)? onNewFile}) async {
     imgName = imgName ?? pathTempProfileImageName;
 
-    getImageDirectoryPath(imgName).then((tempPath) {
+    getImageDirectoryPath(imgName!).then((tempPath) {
       ///Delete previous file if exists
       final checkFile = File(tempPath);
       if (checkFile.existsSync()) checkFile.deleteSync();

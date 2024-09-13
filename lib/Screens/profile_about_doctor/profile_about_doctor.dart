@@ -176,8 +176,7 @@ class _ProfileAboutState extends State<ProfileAbout> {
                                 const SizedBox(
                                   height: 5,
                                 ),
-                                Text("${_controller!.valList[3].toString() != 'null' ?
-                                _controller!.valList[3] : 0}",
+                                Text("${_controller!.valList[3]}",
                                     textAlign: TextAlign.center,
 
                                     style: const TextStyle(
@@ -218,7 +217,7 @@ class _ProfileAboutState extends State<ProfileAbout> {
                     _controller!.getComments();
                   }
                 },
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                 unselectedLabelColor: const Color(0xff8E90C7),
                 indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
@@ -232,14 +231,13 @@ class _ProfileAboutState extends State<ProfileAbout> {
                             color: Color(0xff8E90C7),
                             fontWeight: FontWeight.w400,
                           )),
-
                     ),
                   ),
                   Tab(
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
-                        "Comment".tr,
+                        "Comments".tr,
                         style: const TextStyle(
                           color: Color(0xff8E90C7),
                           fontWeight: FontWeight.w400,
@@ -270,7 +268,7 @@ class _ProfileAboutState extends State<ProfileAbout> {
                   children: [
                      ListTile(
                       title: Text("Add your comments on him".tr,
-                          style: const TextStyle(
+                          style: TextStyle(
 
                               fontSize: 16, fontWeight: FontWeight.w600)),
                     ),
@@ -379,7 +377,7 @@ class _ProfileAboutState extends State<ProfileAbout> {
                           _controller!.reviewModel.value.data?.rateCount != 0
                               ? RatingSummary(
                                   counter: _controller!
-                                          .reviewModel.value.data?.rateCount?.toInt() ??
+                                          .reviewModel.value.data?.rateCount ??
                                       0,
                                   average: double.tryParse(_controller!
                                               .reviewModel
@@ -390,22 +388,22 @@ class _ProfileAboutState extends State<ProfileAbout> {
                                       0.0,
                                   showAverage: true,
                                   counterFiveStars: _controller!.reviewModel
-                                          .value.data?.fiveStarRateCount?.toInt() ??
+                                          .value.data?.fiveStarRateCount ??
                                       0,
                                   counterFourStars: _controller!.reviewModel
-                                          .value.data?.fourStarRateCount?.toInt() ??
+                                          .value.data?.fourStarRateCount ??
                                       0,
                                   counterThreeStars: _controller!.reviewModel
-                                          .value.data?.threeStarRateCount?.toInt() ??
+                                          .value.data?.threeStarRateCount ??
                                       0,
                                   counterTwoStars: _controller!.reviewModel
-                                          .value.data?.twoStarRateCount?.toInt() ??
+                                          .value.data?.twoStarRateCount ??
                                       0,
                                   counterOneStars: _controller!.reviewModel
-                                          .value.data?.oneStarRateCount?.toInt() ??
+                                          .value.data?.oneStarRateCount ??
                                       0,
                                 )
-                              :  Text("Ratings is empty".tr),
+                              : const Text("Ratings is empty"),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: SingleChildScrollView(
@@ -618,7 +616,7 @@ class _ProfileAboutState extends State<ProfileAbout> {
        if(widget.id!=gUserRx.value.id)
          ListTile(
           title:  Text("Biography".tr,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
           subtitle: Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Text(_controller!.userData.value.bio ?? "Biography".tr),

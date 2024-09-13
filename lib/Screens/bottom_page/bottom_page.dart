@@ -55,25 +55,25 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: BottomNavigationBar(
         items:  <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: const Icon(
+            icon: Icon(
               Icons.home,
             ),
             label: 'Home'.tr,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.calendar_today_outlined),
+            icon: Icon(Icons.calendar_today_outlined),
             label: 'Schedule'.tr,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.person),
+            icon: Icon(Icons.person),
             label: 'Staff'.tr,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.history),
+            icon: Icon(Icons.history),
             label: 'Payment History'.tr,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.message),
+            icon: Icon(Icons.message),
             label: 'Tickets'.tr,
           ),
         ],

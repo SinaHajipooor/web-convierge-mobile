@@ -80,7 +80,7 @@ class _SigninPhoneState extends State<SigninPhone> {
                             ),
                           ),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 10,
                         ),
                         Form(
@@ -107,6 +107,7 @@ class _SigninPhoneState extends State<SigninPhone> {
 
                                      prefixIcon : CountryCodePicker(
                                         onChanged: (code) {
+                                          print(code);
                                           _controller.code=code.toString();
                                         },
                                        initialSelection: _controller.code,

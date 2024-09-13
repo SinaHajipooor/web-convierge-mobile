@@ -21,7 +21,7 @@ class FirebaseService {
     await FirebaseService.onBackgroundMsg();
   }
 
-  // static Future<String?> getDeviceToken() async => await FirebaseMessaging.instance.getToken();
+  static Future<String?> getDeviceToken() async => await FirebaseMessaging.instance.getToken();
 
   static FlutterLocalNotificationsPlugin localNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -30,7 +30,7 @@ class FirebaseService {
       await _firebaseMessaging?.requestPermission();
 
     }catch(e){
-      // print(e.toString());
+      print(e.toString());
     }
     const InitializationSettings initSettings = InitializationSettings(
         android: AndroidInitializationSettings("@mipmap/ic_launcher"),
@@ -42,10 +42,8 @@ class FirebaseService {
       badge: true,
       sound: true,
     );
-    FirebaseMessaging.instance.getToken().then((value) {
-      GetStorage().write("fCMToken", value??"");
-    });
-
+    final fCMToken = await getDeviceToken();
+    GetStorage().write("fCMToken", fCMToken??"");
   }
 
   static NotificationDetails platformChannelSpecifics = const NotificationDetails(
@@ -68,6 +66,7 @@ class FirebaseService {
   }
 
   static Future<void> onBackgroundMsg() async {
+    print("object222");
     FirebaseMessaging.onBackgroundMessage(FCMProvider.backgroundHandler);
   }
 

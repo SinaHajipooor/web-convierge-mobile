@@ -103,7 +103,7 @@ class UserData {
       dynamic references, 
       String? email, 
       dynamic username, 
-      dynamic preferedLocale,
+      String? preferedLocale, 
       dynamic headline, 
       dynamic bio, 
       dynamic telegram, 
@@ -177,12 +177,7 @@ class UserData {
     _references = json['references'];
     _email = json['email'];
     _username = json['username'];
-    if(json['preferred_locale'] is Map){
-      _preferedLocale = json['preferred_locale']['id'];
-    }else{
-      _preferedLocale = json['preferred_locale'];
-
-    }
+    _preferedLocale = json['prefered_locale'];
     _headline = json['headline'];
     _bio = json['bio'];
     _telegram = json['telegram'];
@@ -200,7 +195,8 @@ class UserData {
     _genders = json['genders'] != null ? json['genders'].cast<String>() : [];
     _fullName = json['full_name'];
 
-    _role = json['roles'] != null ?  json['roles'] [0] : json['role'] ?? gUserRx.value.role ;
+
+    _role = json['roles'] != null ?  json['roles'][0] : json['role'] ?? gUserRx.value.role ;
 
 
 
@@ -225,7 +221,7 @@ class UserData {
   dynamic _references;
   String? _email;
   dynamic _username;
-  dynamic _preferedLocale;
+  String? _preferedLocale;
   dynamic _headline;
   dynamic _bio;
   dynamic _telegram;
@@ -325,7 +321,7 @@ UserData copyWith({  int? id,
   dynamic get references => _references;
   String? get email => _email;
   dynamic get username => _username;
-  dynamic get preferedLocale => _preferedLocale;
+  String? get preferedLocale => _preferedLocale;
   dynamic get headline => _headline;
   dynamic get bio => _bio;
   set setBio(String bio) {

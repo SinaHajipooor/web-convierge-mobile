@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class LoadingButton extends StatelessWidget {
-  final double height;
-  final double width;
- final String title;
+  double height;
+  double width;
+  String title;
 
- RoundedLoadingButtonController controller = RoundedLoadingButtonController();
+  RoundedLoadingButtonController controller = RoundedLoadingButtonController();
 
-   VoidCallback? onTap;
+  VoidCallback? onTap;
 
   LoadingButton(
       {Key? key,
       this.onTap,
-      required this.controller,
+        required this.controller,
       required this.title,
       required this.height,
       required this.width})

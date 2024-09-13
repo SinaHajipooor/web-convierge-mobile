@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:medical_u/model/edit_model.dart';
 import 'package:medical_u/model/popular_doctor_model.dart';
+import 'package:medical_u/model/search_model.dart';
+import 'package:medical_u/model/service_model.dart';
 import 'package:medical_u/model/tickets_model.dart';
 import 'package:medical_u/network/http_services.dart';
 import 'package:medical_u/utils/common_utils.dart';
@@ -13,9 +17,9 @@ class HomeController extends GetxController {
   RxBool ticketData =false.obs;
 
   PopularDoctorModel? popularDoctorModel=PopularDoctorModel();
+  ServiceModel? servicesModel=ServiceModel();
   Rx<TicketsModel> tickets=TicketsModel().obs;
   RxInt notif =0.obs;
-
 
 
 
@@ -41,6 +45,7 @@ try {
   } else {
     final msg = res.data['message'];
     popularDoctorData.value = true;
+    print(msg);
     showToast(msg, isError: true);
   }
 }catch(e){
@@ -59,6 +64,7 @@ try {
         edit.value = EditModel.fromJson(res.data);
       } else {
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: true);
       }
     }catch(e){
@@ -84,6 +90,7 @@ try {
       } else {
         ticketData.value=false;
         final msg = res.data['message'];
+        print(msg);
         showToast(msg, isError: true);
       }
     }catch(e){

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medical_u/widgets/expanded_section.dart';
-
-import '../model/invoices_model.dart';
+import '../model/courses/courses_model.dart';
 
 class PaymentItem extends StatefulWidget {
   const PaymentItem({super.key, required this.data,required this.renew});
@@ -16,17 +16,9 @@ class PaymentItem extends StatefulWidget {
 }
 
 class _PaymentItemState extends State<PaymentItem> {
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // print(widget.data.startTime);
-  }
-
   bool ex = false;
   String getCurrent(){
-    String symbol = widget.data.currency?.currency??"";
+    String symbol = widget.data.invoice?.currency?.currency??"";
     if(symbol =="TRY"){
       return"₺";
     }else{
@@ -37,11 +29,6 @@ class _PaymentItemState extends State<PaymentItem> {
 
 
   String ti (time){
-
-    if(time == null || time.toString()==""){
-      return "";
-    }
-
     var temp = int.parse(time.split(':')[0]);
     String? t;
     if(temp >= 12 && temp <24){
@@ -80,7 +67,7 @@ class _PaymentItemState extends State<PaymentItem> {
         padding:
         const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         child: Container(
-            height:!ex ?   105  : widget.data.buttons?.length==0 ? 230 :   280 ,
+            height:ex ?305 : 105,
             // width: 335,
             decoration: BoxDecoration(
                 boxShadow: const [
@@ -104,23 +91,21 @@ class _PaymentItemState extends State<PaymentItem> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                            // '${ ti(widget.data.recurrences?[0].startTime?.substring(0,5)??"") } - ${ti(widget.data.recurrences?[0].startTime?.substring(0,5))}',
-                            "${"Staff".tr} : ${ widget.data.relateable?.course?.staff?[0].fullName}",
+                        Text('${ ti(widget.data.startTime?.substring(0,5)??"") } - ${ti(widget.data.endTime?.substring(0,5))}',
                             style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black,
                                 fontSize: 16)),
                         Container(
                           decoration: BoxDecoration(
-                              color: widget.data.status?.type=='error'? Colors.red[100] :Colors.greenAccent[100],
+                              color: widget.data.invoice?.status?.type=='error'? Colors.red[100] :Colors.greenAccent[100],
                               borderRadius:
                               const BorderRadius.all(Radius.circular(8))),
                           padding: const EdgeInsets.all(5),
                           child:
-                          Text(widget.data.status?.slug.toString().tr?? "",
+                          Text(widget.data.invoice?.status?.slug.toString().tr?? "",
                               style:  TextStyle(
-                                color:  widget.data.status?.type=='error'? Colors.red :Colors.green,
+                                color:  widget.data.invoice?.status?.type=='error'? Colors.red :Colors.green,
                               )),
                         )
 
@@ -130,20 +115,20 @@ class _PaymentItemState extends State<PaymentItem> {
                   const SizedBox(
                     height: 5,
                   ),
-                   Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: 8),
+                        padding: const EdgeInsets.only(left: 8),
                         child:
-                        Text("${"Start Date".tr}: ${(widget.data.relateable?.course?.startDate)}",
+                        Text("${"Start Date".tr}: ${(widget.data.startDate)}",
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 14)),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 8),
-                        child: Text("${"End Date".tr}: ${widget.data.relateable?.course?.endDate}",
+                        child: Text("${"End Date".tr}: ${widget.data.endDate}",
                             style: const TextStyle(
 
                                 color: Colors.black,
@@ -168,21 +153,20 @@ class _PaymentItemState extends State<PaymentItem> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                            Text("${"Payable".tr} : ${widget.data.totalPayableAmount} ${getCurrent()}"
+                            Text("${"Payable".tr} : ${widget.data.invoice?.totalPayableAmount} ${getCurrent()}"
                             , style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 18)
 
                             ),
-                            Text("${"Payed".tr} : ${widget.data.totalPayedAmount} ${getCurrent()}",
+                            Text("${"Payed".tr} : ${widget.data.invoice?.totalPayedAmount} ${getCurrent()}",
                                 style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 18)
 
                             ),
-
                           ],),
 
                           const SizedBox(height: 8,),
@@ -202,7 +186,7 @@ class _PaymentItemState extends State<PaymentItem> {
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text("${ widget.data.relateable?.course?.service?.name}",
+                                  Text("${ widget.data.service?.name}",
                                       style: const TextStyle(color: Colors.grey)),
                                 ],
                               )
@@ -211,7 +195,7 @@ class _PaymentItemState extends State<PaymentItem> {
                           const SizedBox(
                             height: 8,
                           ),
-                          widget.data.relateable?.course?.offices?[0] != null
+                          widget.data.office != null
                               ? Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -228,7 +212,7 @@ class _PaymentItemState extends State<PaymentItem> {
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text("${ widget.data.relateable?.course?.offices?[0].name}",
+                                  Text("${ widget.data.office?.name}",
                                       style: const TextStyle(
                                           color: Colors.grey)),
                                 ],
@@ -236,7 +220,6 @@ class _PaymentItemState extends State<PaymentItem> {
                             ],
                           )
                               : const SizedBox(),
-                          if(widget.data.buttons?.length!=0)
                           GestureDetector(
                             onTap: widget.renew,
                             child: Container(

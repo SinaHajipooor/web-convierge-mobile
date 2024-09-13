@@ -151,7 +151,7 @@ class Data {
     _createdBy = json['created_by'];
     _updatedBy = json['updated_by'];
     _description = json['description'];
-    // _data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    _data = json['data'] != null ? Data.fromJson(json['data']) : null;
     _ticketableId = json['ticketable_id'];
     _ticketableType = json['ticketable_type'];
     _statusId = json['status_id'];
